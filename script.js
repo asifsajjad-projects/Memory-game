@@ -6,11 +6,13 @@ const COLORS = [
   "green",
   "orange",
   "purple",
+  "yellow",
   "red",
   "blue",
   "green",
   "orange",
-  "purple"
+  "purple",
+  "yellow",
 ];
 
 // here is a helper function to shuffle an array
@@ -56,69 +58,73 @@ function createDivsForColors(colorArray) {
     gameContainer.append(newDiv);
   }
 }
-setTimeout(()=>{
+function greyOutCards(){
   const elements=document.querySelectorAll("#game > div");
   for(let element of elements){
-    element.setAttribute("style","background-color:gray");
+    element.setAttribute("style","background-color:gray;");
   }
-},2000);
-let lastClickedImage=""
+}
+
+let lastClickedImage="";
+let score=0;
 // TODO: Implement this function!
 function handleCardClick(event) {
   // you can use event.target to see which element was clicked
   const clickedCard= event.target.classList[0];
   console.log(clickedCard);
+  console.log(lastClickedImage);
   if(!lastClickedImage){
     lastClickedImage=clickedCard;
-    event.target.setAttribute("style",`background-color:${clickedCard}`);
+    event.target.setAttribute("style",`background-color:${clickedCard};pointer-events:none`);
   }
   else if(clickedCard!==lastClickedImage){
     event.target.setAttribute("style",`background-color:${clickedCard}`);
     gameContainer.setAttribute("style","pointer-events:none");
-    const myPromise= new Promise((res,rej)=>{setTimeout(()=>{event.target.setAttribute("style","background-color:gray");
-  res();},1000)});
-  myPromise.then(gameContainer.setAttribute("style","pointer-events:auto"));
+    setTimeout(()=>{event.target.setAttribute("style","background-color:gray");
+    gameContainer.setAttribute("style","pointer-events:auto");},1000);
     
   }
   else{
+    console.log("match!");
     lastClickedImage="";
-    event.target.setAttribute("style",`background-color:${clickedCard}`);
+    event.target.setAttribute("style",`background-color:${clickedCard};pointer-events:none`);
+    score +=1;
+    document.getElementById("points").innerText=score;
   }
   
   console.log("you clicked",event.target);
 }
 
+// Timer function
+
+function displayTimer(){
+  let remainingTime=30;
+  let myInterval= setInterval(()=>{
+    remainingTime -= 1;
+    document.getElementById("time").innerText=remainingTime;
+    if (remainingTime < 1){
+      clearInterval(myInterval);
+    }
+  },1000);
+  
+}
+
 // when the DOM loads
 createDivsForColors(shuffledColors);
 
-// ...To be used in bonus task..... 
+document.getElementById("start-btn").addEventListener("click",(e)=>{
+  lastClickedImage="";
+  score=0;
+  document.getElementById("points").innerText=score;
+  greyOutCards();
+  displayTimer();
+});
 
-// setTimeout(()=>{
-//   const elements=document.querySelectorAll("#game > div");
-//   for(let element of elements){
-//     element.setAttribute("style","background-color:black;background-image:none");
-//   }
-// },2000);
-// let lastClickedImage=""
-// // TODO: Implement this function!
-// function handleCardClick(event) {
-//   // you can use event.target to see which element was clicked
-//   const clickedCard= event.target.classList[0];
-//   const clickedCardGif= COLORS.indexOf(clickedCard) + 1;
-//   console.log(clickedCard,clickedCardGif);
-//   if(!lastClickedImage){
-//     lastClickedImage=clickedCard;
-//     event.target.setAttribute("style",`background-image:./gifs/${clickedCardGif}.gif`);
-//   }
-//   else if(clickedCard!==lastClickedImage){
-//     event.target.setAttribute("style",`background-image:./gifs/${clickedCardGif}.gif`);
-//     setTimeout(()=>{event.target.setAttribute("style","background-color:black;background-image:none");},2000);
-    
-//   }
-//   else{
-//     lastClickedImage="";
-//     event.target.setAttribute("style",`background-image:./gifs/${clickedCardGif}.gif`);
-//   }
-  
-//   console.log("you clicked",event.target);
-// }
+document.getElementById("reset-btn").addEventListener("click",(e)=>{
+  lastClickedImage="";
+  score=0;
+  document.getElementById("points").innerText=score;
+  gameContainer.innerHTML="";
+  shuffledColors = shuffle(COLORS);
+  createDivsForColors(shuffledColors);
+});
