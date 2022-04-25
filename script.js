@@ -106,6 +106,7 @@ let resetClicked=false;
 
 function displayTimer(){
   let remainingTime=30;
+  
   let myInterval= setInterval(()=>{
     remainingTime -= 1;
     document.getElementById("time").innerText=remainingTime;
@@ -121,6 +122,7 @@ function displayTimer(){
     if(resetClicked){
       clearInterval(myInterval);
       resetClicked=false;
+      // document.getElementById("reset-btn").setAttribute("style",`pointer-events:none`);
       document.getElementById("time").innerText=30;
     }
   },1000);
@@ -138,6 +140,8 @@ document.getElementById("start-btn").addEventListener("click",(e)=>{
   document.getElementById("false-clicks").innerText=falseClicks;
   greyOutCards();
   displayTimer();
+  document.getElementById("reset-btn").setAttribute("style",`pointer-events:auto`);
+  document.getElementById("start-btn").setAttribute("style",`pointer-events:none`);
 });
 
 document.getElementById("reset-btn").addEventListener("click",(e)=>{
@@ -151,6 +155,8 @@ document.getElementById("reset-btn").addEventListener("click",(e)=>{
   createDivsForColors(shuffledColors);
   document.getElementById("time").innerText=30;
   resetClicked=true;
+  document.getElementById("reset-btn").setAttribute("style",`pointer-events:none`);
+  document.getElementById("start-btn").setAttribute("style",`pointer-events:auto`);
 });
 
 
