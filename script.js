@@ -1,187 +1,199 @@
+// Select Game container
+
 const gameContainer = document.getElementById("game");
-if (!localStorage.getItem("score")) {
-  localStorage.setItem("score", 0);
-}
-if (!localStorage.getItem("falseClicks")) {
-  localStorage.setItem("falseClicks", 120);
-}
-const COLORS = [
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple",
-  "yellow",
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple",
-  "yellow",
+
+// Store the gifs in array 
+const GIFS = [
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
 ];
 
-// here is a helper function to shuffle an array
-// it returns the same array with values shuffled
-// it is based on an algorithm called Fisher Yates if you want ot research more
+// Set the local storage
+
+if (!localStorage.getItem("bestScore")) {
+    localStorage.setItem("bestScore", 10000);
+}
+
+//   Create an object to store global variables 
+
+const GLOBALVAR = {
+    lastClickedImage: "",
+    score: 0,
+    matchCounter: 0
+}
+
+// Shuffle the tiles randomly
+
 function shuffle(array) {
-  let counter = array.length;
+    let counter = array.length;
 
-  // While there are elements in the array
-  while (counter > 0) {
-    // Pick a random index
-    let index = Math.floor(Math.random() * counter);
+    while (counter > 0) {
+        let index = Math.floor(Math.random() * counter);
+        counter--;
+        let temp = array[counter];
+        array[counter] = array[index];
+        array[index] = temp;
+    }
 
-    // Decrease counter by 1
-    counter--;
-
-    // And swap the last element with it
-    let temp = array[counter];
-    array[counter] = array[index];
-    array[index] = temp;
-  }
-
-  return array;
+    return array;
 }
 
-let shuffledColors = shuffle(COLORS);
+// Store the shuffled elements in a new array
 
-// this function loops over the array of colors
-// it creates a new div and gives it a class with the value of the color
-// it also adds an event listener for a click for each card
-function createDivsForColors(colorArray) {
-  for (let color of colorArray) {
-    // create a new div
-    const newDiv = document.createElement("div");
+let shuffledGifs = shuffle(GIFS);
 
-    // give it a class attribute for the value we are looping over
-    newDiv.classList.add(color);
+// Create game tiles
 
-    // call a function handleCardClick when a div is clicked on
-    newDiv.addEventListener("click", handleCardClick);
+function createDivsForGifs(gifArray) {
+    let dcounter = 0;
+    for (let gif of gifArray) {
+        dcounter++;
 
-    // append the div to the element with an id of game
-    gameContainer.append(newDiv);
-  }
+        const newDiv = document.createElement("div");
+        newDiv.classList.add(gif);
+        newDiv.addEventListener("click", handleCardClick);
+        const flip = document.createElement("div");
+        flip.classList.add("flip-container");
+        const innerChildDiv = document.createElement("div");
+        innerChildDiv.classList.add(`inner`);
+        innerChildDiv.classList.add(`inner-${gif}`);
+        const outerChildDiv = document.createElement("div");
+        outerChildDiv.classList.add(`outer`);
+        outerChildDiv.classList.add(`outer-${gif}`);
+        flip.append(innerChildDiv);
+        flip.append(outerChildDiv);
+        newDiv.append(flip);
+        gameContainer.append(newDiv);
+
+        if (dcounter === 12) {
+            const newDiv2 = document.createElement("div");
+            newDiv2.classList.add("display");
+            newDiv2.addEventListener("click", handleCardClick);
+            gameContainer.append(newDiv2);
+        }
+    }
+
 }
-function greyOutCards() {
-  const elements = document.querySelectorAll("#game > div");
-  for (let element of elements) {
-    element.setAttribute("style", "background-color:gray;");
-  }
-}
 
-let lastClickedImage = "";
-let score = 0, falseClicks = 0;
-// TODO: Implement this function!
+// Store the previous event
+let prevEvent = "";
+
+
+// Add click listeners to the divs in game
+
 function handleCardClick(event) {
-  // you can use event.target to see which element was clicked
-  const clickedCard = event.target.classList[0];
-  console.log(clickedCard);
-  console.log(lastClickedImage);
-  if (!lastClickedImage) {
-    lastClickedImage = clickedCard;
-    event.target.setAttribute("style", `background-color:${clickedCard};pointer-events:none`);
-  }
-  else if (clickedCard !== lastClickedImage) {
-    event.target.setAttribute("style", `background-color:${clickedCard}`);
-    gameContainer.setAttribute("style", "pointer-events:none");
-    setTimeout(() => {
-      event.target.setAttribute("style", "background-color:gray");
-      gameContainer.setAttribute("style", "pointer-events:auto");
-    }, 500);
-    falseClicks += 1;
-    document.getElementById("false-clicks").innerText = falseClicks;
-  }
-  else {
-    console.log("match!");
-    lastClickedImage = "";
-    event.target.setAttribute("style", `background-color:${clickedCard};pointer-events:none`);
-    score += 1;
-    document.getElementById("points").innerText = score;
-  }
+    const clickedCard = event.path[2].classList[0];
+    // console.log(event);
+    // console.log(event.path[2].classList[0]);
+    // event.path[1].classList.toggle("flip-card");
+    GLOBALVAR.score += 1;
+    document.querySelector(".display").innerText = GLOBALVAR.score;
+    // // Delete this part later
+    // console.log(clickedCard, clickedCard2);
+    // console.log(lastClickedImage);
 
-  console.log("you clicked", event.target);
+    if (!GLOBALVAR.lastClickedImage) {
+        GLOBALVAR.lastClickedImage = clickedCard;
+        //   Rotate the card to see the GIF
+        event.path[1].classList.toggle("flip-card");
+        // console.log(event.path[1].classList);
+        prevEvent = event.path[1];
+        // console.log(prevEvent);
+
+    }
+    else if (clickedCard !== GLOBALVAR.lastClickedImage) {
+        // Rotate the card to see both the cards for 1 sec
+        gameContainer.setAttribute("style", "pointer-events:none");
+        event.path[1].classList.toggle("flip-card");
+        setTimeout(() => {
+            // Rotate the cards back again to hidden
+            event.path[1].classList.toggle("flip-card");
+            // console.log(event.path[1].classList);
+            // console.log(prevEvent);
+
+            prevEvent.classList.toggle("flip-card");
+            gameContainer.setAttribute("style", "pointer-events:auto");
+        }, 1000);
+        GLOBALVAR.lastClickedImage = "";
+        // GLOBALVAR.lastEvent="";
+    }
+
+    else {
+        // Delete this later
+        // console.log("match!");
+        // Rotate both the cards
+        event.path[1].classList.toggle("flip-card");
+        GLOBALVAR.lastClickedImage = "";
+        event.path[1].setAttribute("style", "pointer-events:none");
+        prevEvent.setAttribute("style", "pointer-events:none");
+        GLOBALVAR.matchCounter++;
+        if (GLOBALVAR.matchCounter === 12) {
+            gameContainer.innerHTML = `<div class="game-over"> Nice done!!! \n Your score is: ${GLOBALVAR.score}</div>`;
+            if (localStorage.getItem("bestScore") > GLOBALVAR.score) {
+                localStorage.setItem("bestScore", GLOBALVAR.score);
+            }
+            document.getElementById("curr-score").innerText = GLOBALVAR.score;
+        }
+        // GLOBALVAR.lastEvent="";
+    }
+
+    // console.log("you clicked", event.target);
 }
 
-// Timer function
-function timedOut() {
-  console.log("timeout");
-  gameContainer.innerHTML = `<article class="time-out"><p>Time Over!!!</p> Your Score: ${falseClicks} miss, ${score} hit.</article>`;
+// Render the shuffled divs
+
+createDivsForGifs(shuffledGifs);
+
+// Display the best score
+
+if (localStorage.getItem("bestScore") != 10000) {
+    document.getElementById("best-score").innerText = localStorage.getItem("bestScore");
 }
 
-let resetClicked = false;
-
-function displayTimer() {
-  let remainingTime = 30;
-
-  let myInterval = setInterval(() => {
-    remainingTime -= 1;
-    document.getElementById("time").innerText = remainingTime;
-    if (remainingTime < 1) {
-      clearInterval(myInterval);
-      timedOut();
-      if (score > localStorage.getItem("score")) {
-        gameContainer.innerHTML = `<article class="time-out"><p>Hooray!!! Previous record broken. </p> Your Score: ${falseClicks} miss, ${score} hit.</article>`;
-        localStorage.setItem("score", score);
-      }
-      else if (score === localStorage.getItem("score") && falseClicks < localStorage.getItem("falseClicks")) {
-        gameContainer.innerHTML = `<article class="time-out"><p>Hooray!!! Previous record broken. </p> Your Score: ${falseClicks} miss, ${score} hit.</article>`;
-        localStorage.setItem("falseClicks", falseClicks);
-      }
-      else {
-        localStorage.setItem("falseClicks", falseClicks);
-      }
-    }
-    if (score === 6) {
-      console.log("game over");
-      clearInterval(myInterval);
-      localStorage.setItem("score", score);
-      gameContainer.innerHTML = `<article class="time-out"><p>Nice Done!!!</p> Your Score: ${falseClicks} miss, ${score} hit.</article>`;
-      if (falseClicks < localStorage.getItem("falseClicks")) {
-        gameContainer.innerHTML = `<article class="time-out"><p>Hooray!!! Previous record broken. </p> Your Score: ${falseClicks} miss, ${score} hit.</article>`;
-        localStorage.setItem("falseClicks", falseClicks);
-      }
-    }
-    if (resetClicked) {
-      clearInterval(myInterval);
-      resetClicked = false;
-      // document.getElementById("reset-btn").setAttribute("style",`pointer-events:none`);
-      document.getElementById("time").innerText = 30;
-    }
-  }, 1000);
-
-}
-
-// when the DOM loads
-createDivsForColors(shuffledColors);
+// Start button functionality
 
 document.getElementById("start-btn").addEventListener("click", (e) => {
-  lastClickedImage = "";
-  score = 0;
-  falseClicks = 0;
-  document.getElementById("points").innerText = score;
-  document.getElementById("false-clicks").innerText = falseClicks;
-  greyOutCards();
-  displayTimer();
-  resetClicked = false;
-  document.getElementById("reset-btn").setAttribute("style", `pointer-events:auto`);
-  document.getElementById("start-btn").setAttribute("style", `pointer-events:none`);
+    // console.log("start clicked");
+    GLOBALVAR.lastClickedImage = "";
+    GLOBALVAR.score = 0;
+    GLOBALVAR.matchCounter = 0;
+    document.querySelector(".display").innerText = "";
 });
+
+// Reset button functionality
 
 document.getElementById("reset-btn").addEventListener("click", (e) => {
-  lastClickedImage = "";
-  score = 0;
-  falseClicks = 0;
-  document.getElementById("points").innerText = score;
-  document.getElementById("false-clicks").innerText = falseClicks;
-  gameContainer.innerHTML = "";
-  shuffledColors = shuffle(COLORS);
-  createDivsForColors(shuffledColors);
-  document.getElementById("time").innerText = 30;
-  resetClicked = true;
-  document.getElementById("reset-btn").setAttribute("style", `pointer-events:none`);
-  document.getElementById("start-btn").setAttribute("style", `pointer-events:auto`);
-  document.getElementById("record-points").innerText = `Best score:\n ${localStorage.getItem("score")} hits, ${localStorage.getItem("falseClicks")} misses.`;
+    // console.log("start clicked");
+    GLOBALVAR.lastClickedImage = "";
+    GLOBALVAR.score = 0;
+    GLOBALVAR.matchCounter = 0;
+    shuffledGifs = shuffle(GIFS);
+    gameContainer.innerHTML = "";
+    createDivsForGifs(shuffledGifs);
+    document.querySelector(".display").innerText = "";
+    if (localStorage.getItem("bestScore") != 10000) {
+        document.getElementById("best-score").innerText = localStorage.getItem("bestScore");
+    }
 });
-
-

@@ -5,23 +5,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memory-game</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee&family=Montserrat:wght@700&family=Public+Sans:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Memory Game!</h1>
-    <div class="start">
-      <button id="start-btn">Start</button>
-      <button id="reset-btn">Reset</button>
-    </div>
-    <section>
-      <div class="score">
-        <p>False Clicks: <br /><span id="false-clicks"> 0 </span> Clicks</p>
-        <p>Matched: <br /><span id="points"> 0 </span> Points</p>
+    <section class="start-prompt" id="start-section">
+      <div class="start-commentary">
+        <h1>
+          Match <br />-A-<br />
+          GIF
+        </h1>
       </div>
+
+      <div class="points-table">
+        <p>Current Score: <span id="curr-score"></span></p>
+        <p>Best Score: <span id="best-score">_</span></p>
+      </div>
+      <div class="start">
+        <a href="#main-game"> <button id="start-btn">Start</button></a>
+      </div>
+    </section>
+
+    <section id="main-game">
       <div id="game"></div>
-      <div class="timer">
-        <p><span id="time">30</span>Seconds</p>
-        <p id="record-points"></p>
+      <div>
+        <a href="#start-section"><button id="reset-btn">Reset</button></a>
       </div>
     </section>
   </body>

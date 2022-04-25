@@ -1,138 +1,257 @@
+/* Root */
 * {
   margin: 0px;
   box-sizing: border-box;
   /* outline: 1px solid red !important; */
 }
-h1 {
-  width: 100vw;
-  height: 20vh;
-  font-size: 3rem;
-  text-align: center;
-  color: rgb(51, 21, 21);
-  background-image: linear-gradient(
-    to bottom,
-    rgb(236, 204, 204),
-    rgb(223, 168, 156)
-  );
+/* Global */
+body {
+  background-color: aquamarine;
+  font-family: "Bungee", "Montserrat";
+  font-size: 20px;
 }
-#game div {
-  border: 1px solid black;
-  width: 30%;
-  height: 15%;
-  margin: 0px;
-  border-radius: 5px;
-}
-section {
-  width: 100vw;
-  height: 72vh;
-  background-color: rgb(223, 168, 156);
-  display: flex;
-  justify-content: space-between;
-}
-.score,
-.timer {
-  width: 20%;
-  height: 50%;
-  background-color: rgb(206, 162, 250);
-  border-radius: 10px;
-  margin: auto;
+
+/* Initial container */
+.start-prompt {
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  color: rgb(20, 22, 180);
-  font-size: 1.5rem;
 }
 
-.time-out {
-  font-size: 2rem;
-  color: red;
+h1 {
+  font-size: 8rem;
+  text-align: center;
 }
-span {
-  font-size: 3rem;
-  color: rgb(10, 10, 10);
-}
+
 .start {
-  width: 100vw;
-  height: 8vh;
-  background-image: linear-gradient(
-    to right,
-    rgb(221, 171, 171),
-    rgb(226, 207, 172)
-  );
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+  height: 10vh;
+  width: 20vw;
 }
-button {
+#start-btn {
+  height: 100%;
+  width: 100%;
   border: none;
-  border-radius: 4px;
-  width: 20%;
-  height: 70%;
-  font-size: 1.2rem;
-  color: rgb(94, 70, 70);
-  background-color: antiquewhite;
+  border-radius: 25px;
+}
+
+/* Game container */
+
+#main-game {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 #game {
-  background-color: antiquewhite;
-  border-radius: 15px;
-  width: 40%;
-  height: 100%;
+  height: 66%;
+  width: 56%;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
   align-items: center;
+  background-color: antiquewhite;
 }
 
-.red {
-  background-color: red;
+#game div {
+  width: 10vw;
+  height: 12vh;
+  margin: 0px;
+  cursor: pointer;
+  perspective: 30vw;
+  background-color: transparent;
+  border-radius: 3px;
+  perspective: 30vw;
 }
-.blue {
-  background-color: blue;
+.flip-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
-.green {
-  background-color: green;
+
+.flip-card {
+  transform: rotateY(180deg);
 }
-.orange {
-  background-color: orange;
+
+.flip-container div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
-.purple {
-  background-color: purple;
+
+.inner-one {
+  background-image: url("./gifs/one.gif");
+  background-size: cover;
+  transform: rotateY(180deg);
 }
-.yellow {
-  background-color: yellow;
+.inner-two {
+  background-image: url("./gifs/two.gif");
+  background-size: cover;
+  transform: rotateY(180deg);
 }
+.inner-three {
+  background-image: url("./gifs/three.gif");
+  background-size: cover;
+  transform: rotateY(180deg);
+}
+.inner-four {
+  background-image: url("./gifs/four.gif");
+  background-size: cover;
+  transform: rotateY(180deg);
+}
+.inner-five {
+  background-image: url("./gifs/five.gif");
+  background-size: cover;
+  transform: rotateY(180deg);
+}
+.inner-six {
+  background-image: url("./gifs/six.gif");
+  background-size: cover;
+  transform: rotateY(180deg);
+}
+.inner-seven {
+  background-image: url("./gifs/seven.gif");
+  background-size: cover;
+  transform: rotateY(180deg);
+}
+.inner-eight {
+  background-image: url("./gifs/eight.gif");
+  background-size: cover;
+  transform: rotateY(180deg);
+}
+.inner-nine {
+  background-image: url("./gifs/nine.gif");
+  background-size: cover;
+  transform: rotateY(180deg);
+}
+.inner-ten {
+  background-image: url("./gifs/ten.gif");
+  background-size: cover;
+  transform: rotateY(180deg);
+}
+.inner-eleven {
+  background-image: url("./gifs/eleven.gif");
+  background-size: cover;
+  transform: rotateY(180deg);
+}
+.inner-twelve {
+  background-image: url("./gifs/twelve.gif");
+  background-size: cover;
+  transform: rotateY(180deg);
+}
+
+.outer-one {
+  background-image: url("./gifs/smiley.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.outer-two {
+  background-image: url("./gifs/smiley.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.outer-three {
+  background-image: url("./gifs/smiley.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.outer-four {
+  background-image: url("./gifs/smiley.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.outer-five {
+  background-image: url("./gifs/smiley.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.outer-six {
+  background-image: url("./gifs/smiley.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.outer-seven {
+  background-image: url("./gifs/smiley.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.outer-eight {
+  background-image: url("./gifs/smiley.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.outer-nine {
+  background-image: url("./gifs/smiley.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.outer-ten {
+  background-image: url("./gifs/smiley.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.outer-eleven {
+  background-image: url("./gifs/smiley.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.outer-twelve {
+  background-image: url("./gifs/smiley.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.display {
+  border: none !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  font-size: 2rem;
+  background-color: rgb(21, 21, 68);
+  color: white;
+}
+
 
 @media (max-width: 425px) {
   h1 {
-    height: 5vh;
-    font-size: 2rem;
+    font-size: 4rem;
+    text-align: center;
   }
   .start {
-    height: 6vh;
-    background-image: none;
-    background-color: rgb(223, 168, 156);
-  }
-  section {
-    height: 89vh;
-    background-color: rgb(223, 168, 156);
-    display: flex;
-    flex-flow: column wrap;
+    height: 10vh;
+    width: 60vw;
   }
   #game {
-    width: 100%;
-    height: 80%;
+    height: 50%;
+    width: 80%;
   }
-  .score,
-  .timer {
-    width: 100%;
-    height: 10%;
-    flex-direction: row;
-    font-size: 1.2rem;
-    border-radius: 0px;
-  }
-  span {
-    font-size: 2rem;
+  #game div {
+    width: 14vw;
+    height: 10vw;
   }
 }
