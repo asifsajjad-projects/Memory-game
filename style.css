@@ -1,7 +1,7 @@
 *{
   margin: 0px;
   box-sizing: border-box;
-  outline: 1px solid red !important;
+  /* outline: 1px solid red !important; */
 }
 h1{
   width:100vw;
@@ -21,7 +21,7 @@ h1{
 } 
 section{
   width: 100vw;
-  height: 70vh;
+  height: 72vh;
   background-color: rgb(223, 168, 156);
   display: flex;
   justify-content: space-between;
@@ -29,18 +29,24 @@ section{
 .score, .timer{
   width: 20%;
   height: 50%;
-  background-color: blueviolet;
+  background-color: rgb(206, 162, 250);
   border-radius: 10px;
   margin: auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  color: rgb(155, 231, 145) ;
-  font-size: 1.5rem;;
+  color: rgb(20, 22, 180) ;
+  font-size: 1.5rem;
+}
+
+.time-out{
+  font-size: 2rem;
+  color: red;
 }
 span{
-  font-size: 2rem;
-  color: white;
+  font-size: 3rem;
+  color: rgb(10, 10, 10);
 }
 .start{
   width:100vw;
@@ -88,4 +94,37 @@ display: flex;
 }
 .yellow{
   background-color: yellow;
+}
+
+@media(max-width:425px){
+  h1{
+    height: 5vh;
+    font-size: 2rem;
+  }
+  .start{
+    height: 6vh;
+    background-image: none;
+    background-color: rgb(223, 168, 156);
+  }
+  section{
+    height: 89vh;
+  background-color: rgb(223, 168, 156);
+  display: flex;
+  flex-flow: column wrap;
+  }
+  #game{
+    width: 100%;
+height:80%;
+  }
+  .score, .timer{
+    width: 100%;
+    height: 10%;
+    flex-direction: row;
+    font-size: 1.2rem;
+    border-radius: 0px;
+  }
+  span{
+    font-size: 2rem;
+  }
+  
 }

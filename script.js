@@ -66,7 +66,7 @@ function greyOutCards(){
 }
 
 let lastClickedImage="";
-let score=0;
+let score=0, falseClicks=0;
 // TODO: Implement this function!
 function handleCardClick(event) {
   // you can use event.target to see which element was clicked
@@ -81,8 +81,9 @@ function handleCardClick(event) {
     event.target.setAttribute("style",`background-color:${clickedCard}`);
     gameContainer.setAttribute("style","pointer-events:none");
     setTimeout(()=>{event.target.setAttribute("style","background-color:gray");
-    gameContainer.setAttribute("style","pointer-events:auto");},1000);
-    
+    gameContainer.setAttribute("style","pointer-events:auto");},500);
+    falseClicks +=1;
+    document.getElementById("false-clicks").innerText=falseClicks;
   }
   else{
     console.log("match!");
@@ -96,6 +97,12 @@ function handleCardClick(event) {
 }
 
 // Timer function
+function timedOut(){
+  console.log("timeout");
+  gameContainer.innerHTML=`<article class="time-out"><p>Time Over!!!</p> Your Score: ${falseClicks} miss, ${score} hit.</article>`  ;
+}
+
+let resetClicked=false;
 
 function displayTimer(){
   let remainingTime=30;
@@ -104,6 +111,17 @@ function displayTimer(){
     document.getElementById("time").innerText=remainingTime;
     if (remainingTime < 1){
       clearInterval(myInterval);
+      timedOut();      
+    }
+    if(score===6){
+      console.log("game over");
+      clearInterval(myInterval);
+      gameContainer.innerHTML=`<article class="time-out"><p>Nice Done!!!</p> Your Score: ${falseClicks} miss, ${score} hit.</article>`  ;
+    }
+    if(resetClicked){
+      clearInterval(myInterval);
+      resetClicked=false;
+      document.getElementById("time").innerText=30;
     }
   },1000);
   
@@ -115,7 +133,9 @@ createDivsForColors(shuffledColors);
 document.getElementById("start-btn").addEventListener("click",(e)=>{
   lastClickedImage="";
   score=0;
+  falseClicks=0;
   document.getElementById("points").innerText=score;
+  document.getElementById("false-clicks").innerText=falseClicks;
   greyOutCards();
   displayTimer();
 });
@@ -123,8 +143,14 @@ document.getElementById("start-btn").addEventListener("click",(e)=>{
 document.getElementById("reset-btn").addEventListener("click",(e)=>{
   lastClickedImage="";
   score=0;
+  falseClicks=0;
   document.getElementById("points").innerText=score;
+  document.getElementById("false-clicks").innerText=falseClicks;
   gameContainer.innerHTML="";
   shuffledColors = shuffle(COLORS);
   createDivsForColors(shuffledColors);
+  document.getElementById("time").innerText=30;
+  resetClicked=true;
 });
+
+
