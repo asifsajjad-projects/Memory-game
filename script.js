@@ -105,27 +105,19 @@ let prevEvent = "";
 
 function handleCardClick(event) {
     // console.log(event);
-    // console.log(event.target.offsetParent.offsetParent.classList[0]);
-    const clickedCard =  event.target.offsetParent.offsetParent.classList[0];
-    const myEvent= event.target.offsetParent;
-    // console.log(event);
-    // console.log(event.path[2].classList[0]);
-    // event.path[1].classList.toggle("flip-card");
+    const clickedCard = event.target.offsetParent.offsetParent.classList[0];
+    const myEvent = event.target.offsetParent;
+    myEvent.setAttribute("style", "pointer-events:none");
     GLOBALVAR.score += 1;
     document.querySelector(".display").innerText = GLOBALVAR.score;
-    // // Delete this part later
-    // console.log(clickedCard, clickedCard2);
-    // console.log(lastClickedImage);
 
     if (!GLOBALVAR.lastClickedImage) {
         GLOBALVAR.lastClickedImage = clickedCard;
         //   Rotate the card to see the GIF
         myEvent.classList.toggle("flip-card");
-        // console.log(event.path[1].classList);
         prevEvent = myEvent;
-        // console.log(prevEvent);
-
     }
+
     else if (clickedCard !== GLOBALVAR.lastClickedImage) {
         // Rotate the card to see both the cards for 1 sec
         gameContainer.setAttribute("style", "pointer-events:none");
@@ -133,20 +125,16 @@ function handleCardClick(event) {
         setTimeout(() => {
             // Rotate the cards back again to hidden
             myEvent.classList.toggle("flip-card");
-            // console.log(event.path[1].classList);
-            // console.log(prevEvent);
-
-            prevEvent.classList.toggle("flip-card");
+            prevEvent.classList.toggle("flip-card");            
+            myEvent.setAttribute("style", "pointer-events:auto");
+            prevEvent.setAttribute("style", "pointer-events:auto");
             gameContainer.setAttribute("style", "pointer-events:auto");
         }, 1000);
+
         GLOBALVAR.lastClickedImage = "";
-        // GLOBALVAR.lastEvent="";
     }
 
     else {
-        // Delete this later
-        // console.log("match!");
-        // Rotate both the cards
         myEvent.classList.toggle("flip-card");
         GLOBALVAR.lastClickedImage = "";
         myEvent.setAttribute("style", "pointer-events:none");
@@ -159,7 +147,6 @@ function handleCardClick(event) {
             }
             document.getElementById("curr-score").innerText = GLOBALVAR.score;
         }
-        // GLOBALVAR.lastEvent="";
     }
 
     // console.log("you clicked", event.target);
@@ -178,7 +165,6 @@ if (localStorage.getItem("bestScore") != 10000) {
 // Start button functionality
 
 document.getElementById("start-btn").addEventListener("click", (e) => {
-    // console.log("start clicked");
     GLOBALVAR.lastClickedImage = "";
     GLOBALVAR.score = 0;
     GLOBALVAR.matchCounter = 0;
@@ -188,7 +174,6 @@ document.getElementById("start-btn").addEventListener("click", (e) => {
 // Reset button functionality
 
 document.getElementById("reset-btn").addEventListener("click", (e) => {
-    // console.log("start clicked");
     GLOBALVAR.lastClickedImage = "";
     GLOBALVAR.score = 0;
     GLOBALVAR.matchCounter = 0;
@@ -196,6 +181,7 @@ document.getElementById("reset-btn").addEventListener("click", (e) => {
     gameContainer.innerHTML = "";
     createDivsForGifs(shuffledGifs);
     document.querySelector(".display").innerText = "";
+
     if (localStorage.getItem("bestScore") != 10000) {
         document.getElementById("best-score").innerText = localStorage.getItem("bestScore");
     }

@@ -90,61 +90,73 @@ h1 {
 }
 
 .inner-one {
+    pointer-events: none;
   background-image: url("./gifs/one.gif");
   background-size: cover;
   transform: rotateY(180deg);
 }
 .inner-two {
+    pointer-events: none;
   background-image: url("./gifs/two.gif");
   background-size: cover;
   transform: rotateY(180deg);
 }
 .inner-three {
+    pointer-events: none;
   background-image: url("./gifs/three.gif");
   background-size: cover;
   transform: rotateY(180deg);
 }
 .inner-four {
+    pointer-events: none;
   background-image: url("./gifs/four.gif");
   background-size: cover;
   transform: rotateY(180deg);
 }
 .inner-five {
+    pointer-events: none;
   background-image: url("./gifs/five.gif");
   background-size: cover;
   transform: rotateY(180deg);
 }
 .inner-six {
+    pointer-events: none;
   background-image: url("./gifs/six.gif");
   background-size: cover;
   transform: rotateY(180deg);
 }
 .inner-seven {
+    pointer-events: none;
   background-image: url("./gifs/seven.gif");
   background-size: cover;
   transform: rotateY(180deg);
 }
 .inner-eight {
+    pointer-events: none;
   background-image: url("./gifs/eight.gif");
   background-size: cover;
   transform: rotateY(180deg);
 }
 .inner-nine {
+    pointer-events: none;
   background-image: url("./gifs/nine.gif");
   background-size: cover;
   transform: rotateY(180deg);
 }
 .inner-ten {
+    pointer-events: none;
   background-image: url("./gifs/ten.gif");
   background-size: cover;
   transform: rotateY(180deg);
 }
 .inner-eleven {
+    pointer-events: none;
   background-image: url("./gifs/eleven.gif");
   background-size: cover;
   transform: rotateY(180deg);
 }
 .inner-twelve {
+    pointer-events: none;
   background-image: url("./gifs/twelve.gif");
   background-size: cover;
   transform: rotateY(180deg);
