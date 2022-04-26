@@ -104,7 +104,10 @@ let prevEvent = "";
 // Add click listeners to the divs in game
 
 function handleCardClick(event) {
-    const clickedCard = event.path[2].classList[0];
+    // console.log(event);
+    // console.log(event.target.offsetParent.offsetParent.classList[0]);
+    const clickedCard =  event.target.offsetParent.offsetParent.classList[0];
+    const myEvent= event.target.offsetParent;
     // console.log(event);
     // console.log(event.path[2].classList[0]);
     // event.path[1].classList.toggle("flip-card");
@@ -117,19 +120,19 @@ function handleCardClick(event) {
     if (!GLOBALVAR.lastClickedImage) {
         GLOBALVAR.lastClickedImage = clickedCard;
         //   Rotate the card to see the GIF
-        event.path[1].classList.toggle("flip-card");
+        myEvent.classList.toggle("flip-card");
         // console.log(event.path[1].classList);
-        prevEvent = event.path[1];
+        prevEvent = myEvent;
         // console.log(prevEvent);
 
     }
     else if (clickedCard !== GLOBALVAR.lastClickedImage) {
         // Rotate the card to see both the cards for 1 sec
         gameContainer.setAttribute("style", "pointer-events:none");
-        event.path[1].classList.toggle("flip-card");
+        myEvent.classList.toggle("flip-card");
         setTimeout(() => {
             // Rotate the cards back again to hidden
-            event.path[1].classList.toggle("flip-card");
+            myEvent.classList.toggle("flip-card");
             // console.log(event.path[1].classList);
             // console.log(prevEvent);
 
@@ -144,9 +147,9 @@ function handleCardClick(event) {
         // Delete this later
         // console.log("match!");
         // Rotate both the cards
-        event.path[1].classList.toggle("flip-card");
+        myEvent.classList.toggle("flip-card");
         GLOBALVAR.lastClickedImage = "";
-        event.path[1].setAttribute("style", "pointer-events:none");
+        myEvent.setAttribute("style", "pointer-events:none");
         prevEvent.setAttribute("style", "pointer-events:none");
         GLOBALVAR.matchCounter++;
         if (GLOBALVAR.matchCounter === 12) {
