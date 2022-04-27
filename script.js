@@ -196,6 +196,12 @@ document.getElementById("start-btn").addEventListener("click", (e) => {
 // Reset button functionality
 
 document.getElementById("reset-btn").addEventListener("click", (e) => {
+    document.getElementById("reset-msg").setAttribute("style","display:flex");
+    
+});
+
+document.getElementById("yes").addEventListener("click", (e) => {
+    document.getElementById("reset-msg").setAttribute("style","display:none");
     GLOBALVAR.lastClickedImage = "";
     GLOBALVAR.score = 0;
     GLOBALVAR.matchCounter = 0;
@@ -208,4 +214,10 @@ document.getElementById("reset-btn").addEventListener("click", (e) => {
     if (localStorage.getItem("bestScore") != 10000) {
         document.getElementById("best-score").innerText = localStorage.getItem("bestScore");
     }
+    
+});
+
+document.getElementById("no").addEventListener("click", (e) => {
+    document.getElementById("reset-msg").setAttribute("style","display:none");
+    
 });
