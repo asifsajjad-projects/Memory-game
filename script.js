@@ -73,7 +73,7 @@ function createDivsForGifs(gifArray) {
 
         const newDiv = document.createElement("div");
         newDiv.classList.add(gif);
-        newDiv.addEventListener("click", handleCardClick);
+        // newDiv.addEventListener("click", handleCardClick);
         const flip = document.createElement("div");
         flip.classList.add("flip-container");
         const innerChildDiv = document.createElement("div");
@@ -82,6 +82,7 @@ function createDivsForGifs(gifArray) {
         const outerChildDiv = document.createElement("div");
         outerChildDiv.classList.add(`outer`);
         outerChildDiv.classList.add(`outer-${gif}`);
+        outerChildDiv.addEventListener("click", handleCardClick);
         flip.append(innerChildDiv);
         flip.append(outerChildDiv);
         newDiv.append(flip);
@@ -99,55 +100,69 @@ function createDivsForGifs(gifArray) {
 
 // Store the previous event
 let prevEvent = "";
-
+let clickCounter = 0;
+let prevRemovedClick = "";
 
 // Add click listeners to the divs in game
 
 function handleCardClick(event) {
-    // console.log(event);
+    console.log(event.target);
+    clickCounter++;
     const clickedCard = event.target.offsetParent.offsetParent.classList[0];
     const myEvent = event.target.offsetParent;
-    myEvent.setAttribute("style", "pointer-events:none");
+    // myEvent.setAttribute("style", "pointer-events:none");
+    event.target.removeEventListener("click", handleCardClick);
     GLOBALVAR.score += 1;
     document.querySelector(".display").innerText = GLOBALVAR.score;
 
-    if (!GLOBALVAR.lastClickedImage) {
+    if (clickCounter === 1) {
         GLOBALVAR.lastClickedImage = clickedCard;
         //   Rotate the card to see the GIF
         myEvent.classList.toggle("flip-card");
         prevEvent = myEvent;
+        prevRemovedClick = event.target;
     }
-
-    else if (clickedCard !== GLOBALVAR.lastClickedImage) {
-        // Rotate the card to see both the cards for 1 sec
-        gameContainer.setAttribute("style", "pointer-events:none");
-        myEvent.classList.toggle("flip-card");
-        setTimeout(() => {
-            // Rotate the cards back again to hidden
+    else if (clickCounter === 2) {
+        if (clickedCard === GLOBALVAR.lastClickedImage) {
             myEvent.classList.toggle("flip-card");
-            prevEvent.classList.toggle("flip-card");            
-            myEvent.setAttribute("style", "pointer-events:auto");
-            prevEvent.setAttribute("style", "pointer-events:auto");
-            gameContainer.setAttribute("style", "pointer-events:auto");
-        }, 1000);
-
-        GLOBALVAR.lastClickedImage = "";
-    }
-
-    else {
-        myEvent.classList.toggle("flip-card");
-        GLOBALVAR.lastClickedImage = "";
-        myEvent.setAttribute("style", "pointer-events:none");
-        prevEvent.setAttribute("style", "pointer-events:none");
-        GLOBALVAR.matchCounter++;
-        if (GLOBALVAR.matchCounter === 12) {
-            gameContainer.innerHTML = `<div class="game-over"> Nice done!!! \n Your score is: ${GLOBALVAR.score}</div>`;
-            if (localStorage.getItem("bestScore") > GLOBALVAR.score) {
-                localStorage.setItem("bestScore", GLOBALVAR.score);
+            GLOBALVAR.lastClickedImage = "";
+            myEvent.setAttribute("style", "pointer-events:none");
+            prevEvent.setAttribute("style", "pointer-events:none");
+            GLOBALVAR.matchCounter++;
+            document.getElementById("matched").innerText= GLOBALVAR.matchCounter;
+            clickCounter = 0;
+            if (GLOBALVAR.matchCounter === 12) {
+                gameContainer.innerHTML = `<p class="game-over"> Nice done!!! <br> Your score is: ${GLOBALVAR.score}</p>`;
+                if (localStorage.getItem("bestScore") > GLOBALVAR.score) {
+                    localStorage.setItem("bestScore", GLOBALVAR.score);
+                }
+                document.getElementById("curr-score").innerText = GLOBALVAR.score;
             }
-            document.getElementById("curr-score").innerText = GLOBALVAR.score;
+        }
+
+        else {
+
+            // Rotate the card to see both the cards for 1 sec
+            gameContainer.setAttribute("style", "pointer-events:none");
+            myEvent.classList.toggle("flip-card");
+            setTimeout(() => {
+                // Rotate the cards back again to hidden
+                myEvent.classList.toggle("flip-card");
+                prevEvent.classList.toggle("flip-card");
+                event.target.addEventListener("click", handleCardClick);
+                prevRemovedClick.addEventListener("click", handleCardClick);
+
+                // myEvent.setAttribute("style", "pointer-events:auto");
+                // prevEvent.setAttribute("style", "pointer-events:auto");
+                gameContainer.setAttribute("style", "pointer-events:auto");
+                clickCounter = 0;
+            }, 600);
+
+            GLOBALVAR.lastClickedImage = "";
         }
     }
+
+
 
     // console.log("you clicked", event.target);
 }
@@ -165,6 +180,8 @@ if (localStorage.getItem("bestScore") != 10000) {
 // Start button functionality
 
 document.getElementById("start-btn").addEventListener("click", (e) => {
+    document.querySelector('#main-game').setAttribute("style","display:flex");
+    document.querySelector('#start-section').setAttribute("style","display:none");
     GLOBALVAR.lastClickedImage = "";
     GLOBALVAR.score = 0;
     GLOBALVAR.matchCounter = 0;
@@ -181,7 +198,8 @@ document.getElementById("reset-btn").addEventListener("click", (e) => {
     gameContainer.innerHTML = "";
     createDivsForGifs(shuffledGifs);
     document.querySelector(".display").innerText = "";
-
+    document.getElementById("matched").innerText= GLOBALVAR.matchCounter;
+    
     if (localStorage.getItem("bestScore") != 10000) {
         document.getElementById("best-score").innerText = localStorage.getItem("bestScore");
     }
