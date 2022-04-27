@@ -35,6 +35,11 @@ const GIFS = [
 if (!localStorage.getItem("bestScore")) {
     localStorage.setItem("bestScore", 10000);
 }
+else{
+    if (localStorage.getItem("bestScore") != 10000) {
+        document.getElementById("best-score").innerText = localStorage.getItem("bestScore");
+    }
+}
 
 //   Create an object to store global variables 
 
