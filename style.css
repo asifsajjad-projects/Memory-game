@@ -253,12 +253,23 @@ button {
 
 #reset-msg{
   display:none;
-  height:20%;
-  width:45%;
+  height:15%;
+  width:55%;
+  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap:5%;
+  font-size: 1rem;
+}
+#reset-msg > p{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#reset-msg > p > button{
+  font-size: 1.2rem;
+  height:100%;
 }
 
 .game-over{
