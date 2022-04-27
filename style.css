@@ -258,7 +258,7 @@ button {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap:10px;
+  gap:5%;
 }
 
 .game-over{
